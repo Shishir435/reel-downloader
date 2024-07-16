@@ -24,6 +24,11 @@ export async function POST(req: NextRequest) {
             variables: `{"child_comment_count":3,"fetch_comment_count":40,"has_threaded_comments":true,"parent_comment_count":24,"shortcode":"${reelId}"}`
         };
         const client = wrapper(axios.create({ jar: cookieJar }));
+        cookieJar.setCookieSync('csrftoken=S6AOv7JTi0DsBBz9cBxggq9XDoQeu1RX', 'https://www.instagram.com');
+        cookieJar.setCookieSync('ig_did=63F8159F-294B-463B-B968-082B83E4C918', 'https://www.instagram.com');
+        cookieJar.setCookieSync('ig_nrcb=1', 'https://www.instagram.com');
+        cookieJar.setCookieSync('mid=ZpZLtAAEAAFA0NI0K97dnGA4meLc', 'https://www.instagram.com');
+
         const response = await client.get(link, { headers, params });
         const videoLink = response.data.data.shortcode_media.video_url;
         
