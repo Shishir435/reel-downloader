@@ -1,6 +1,8 @@
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
-import tough from 'tough-cookie'
+import tough from 'tough-cookie';
+import { wrapper } from 'axios-cookiejar-support';
+
 const cookieJar = new tough.CookieJar();
 export async function POST(req: NextRequest) {
     try {
@@ -15,15 +17,14 @@ export async function POST(req: NextRequest) {
         const link = "https://www.instagram.com/graphql/query/";
         const headers = {
             'user-agent': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.193 Safari/537.36',
-            'Cookie': 'csrftoken=JGMK2caoiv_rTk5dvww4Um; ig_did=C753BC53-2F75-46D2-A52A-CAEF2CAA61E5; ig_nrcb=1; mid=ZpYj6wAEAAFQcLLAEc_WpX4B29rs'
         };
         const params = {
             hl: 'en',
             query_hash: 'b3055c01b4b222b8a47dc12b090e4e64',
             variables: `{"child_comment_count":3,"fetch_comment_count":40,"has_threaded_comments":true,"parent_comment_count":24,"shortcode":"${reelId}"}`
         };
-
-        const response = await axios.get(link, { headers, params });
+        const client = wrapper(axios.create({ jar: cookieJar }));
+        const response = await client.get(link, { headers, params });
         const videoLink = response.data.data.shortcode_media.video_url;
         
 
