@@ -1,6 +1,7 @@
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
-
+import tough from 'tough-cookie'
+const cookieJar = new tough.CookieJar();
 export async function POST(req: NextRequest) {
     try {
         const { reelLink } = await req.json();
@@ -13,7 +14,10 @@ export async function POST(req: NextRequest) {
 
         const link = "https://www.instagram.com/graphql/query/";
         const headers = {
-            'user-agent': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.193 Safari/537.36'
+            'user-agent': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.193 Safari/537.36',
+            'referer': 'https://www.instagram.com/',
+            'origin': 'https://www.instagram.com/',
+            'cookie': cookieJar.getCookieStringSync('https://www.instagram.com/')
         };
         const params = {
             hl: 'en',
@@ -27,7 +31,7 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json({ downloadUrl: videoLink });
     } catch (error) {
-        console.error(error);
+        console.error("error while downloading reel",error);
         return NextResponse.json({ error: 'Failed to process the reel link.' }, { status: 500 });
     }
 }
