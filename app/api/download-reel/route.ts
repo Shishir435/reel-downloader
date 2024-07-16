@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
             'user-agent': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.193 Safari/537.36',
             'referer': 'https://www.instagram.com/',
             'origin': 'https://www.instagram.com/',
-            'cookie': cookieJar.getCookieStringSync('https://www.instagram.com/')
+            'cookie': `csrftoken=${process.env.CSRF_TOKEN}; sessionid=${process.env.SESSION_ID}`
         };
         const params = {
             hl: 'en',
