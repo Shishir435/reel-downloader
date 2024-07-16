@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
@@ -71,14 +71,6 @@ export default function Home() {
             <div>
               <a
                 href={downloadUrl}
-                onClick={() => {
-                  setError("");
-                  setLoading("Init");
-                  setReelLink("");
-                  setTimeout(()=>{
-                    setDownloadUrl("")
-                  },59000)
-                }}
                 className={cn(buttonVariants({ variant: "default" }), "w-full")}
                 download
               >
