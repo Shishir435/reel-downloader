@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "node src/index.js"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
