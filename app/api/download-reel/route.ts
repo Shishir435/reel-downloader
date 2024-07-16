@@ -15,9 +15,7 @@ export async function POST(req: NextRequest) {
         const link = "https://www.instagram.com/graphql/query/";
         const headers = {
             'user-agent': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.193 Safari/537.36',
-            'referer': 'https://www.instagram.com/',
-            'origin': 'https://www.instagram.com/',
-            'cookie': `csrftoken=${process.env.CSRF_TOKEN}; sessionid=${process.env.SESSION_ID}`
+            'Cookie': 'csrftoken=JGMK2caoiv_rTk5dvww4Um; ig_did=C753BC53-2F75-46D2-A52A-CAEF2CAA61E5; ig_nrcb=1; mid=ZpYj6wAEAAFQcLLAEc_WpX4B29rs'
         };
         const params = {
             hl: 'en',
