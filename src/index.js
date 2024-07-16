@@ -24,7 +24,7 @@ app.post("/",async (req,res)=>{
         const params = {
             hl: 'en',
             query_hash: 'b3055c01b4b222b8a47dc12b090e4e64',
-            variables: `{"child_comment_count":3,"fetch_comment_count":40,"has_threaded_comments":true,"parent_comment_count":24,"shortcode":"${reelId}"}`
+            variables: `{"shortcode":"${reelId}"}`
         };
         
 
