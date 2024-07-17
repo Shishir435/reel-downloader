@@ -1,9 +1,13 @@
 import axios from 'axios';
 import { NextRequest, NextResponse } from 'next/server';
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
+import { executablePath } from 'puppeteer';
 
 async function getCsrfTokenAndCookies() {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({ 
+        headless: true,
+        executablePath: executablePath(),
+        });
     const page = await browser.newPage();
 
     await page.goto('https://www.instagram.com/', { waitUntil: 'networkidle2' });
@@ -30,7 +34,6 @@ export async function POST(req: NextRequest) {
         const reelId = reelIdMatch[1];
 
         const { csrfToken, cookieString } = await getCsrfTokenAndCookies();
-        // console.log(csrfToken,cookieString)
 
         if (!csrfToken) {
             return NextResponse.json({ error: 'Failed to obtain CSRF token.' }, { status: 500 });
