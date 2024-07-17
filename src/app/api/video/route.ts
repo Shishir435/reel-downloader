@@ -26,12 +26,15 @@ export async function GET(request: Request) {
   }
 
   const postUrl = new URL(request.url).searchParams.get("postUrl");
+  // console.log(postUrl)
   if (!postUrl) {
     const badRequestResponse = makeErrorResponse("Post URL is required");
     return NextResponse.json(badRequestResponse, { status: 400 });
   }
 
-  const postId = getPostIdFromUrl(postUrl);
+  // const postId = getPostIdFromUrl(postUrl);
+  const postId = postUrl.split('/')[5];
+  // console.log(postId)
   if (!postId) {
     const noPostIdResponse = makeErrorResponse("Invalid Post URL");
     return NextResponse.json(noPostIdResponse, { status: 400 });
