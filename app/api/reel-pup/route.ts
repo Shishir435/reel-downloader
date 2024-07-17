@@ -6,7 +6,7 @@ import { executablePath } from 'puppeteer';
 async function getCsrfTokenAndCookies() {
     const browser = await puppeteer.launch({ 
         headless: true,
-        executablePath: executablePath(),
+        executablePath: executablePath()
         });
     const page = await browser.newPage();
 
