@@ -8,6 +8,24 @@ const PORT=process.env.PORT||10000
 app.get('/',(req,res)=>{
 res.send("hello ji")
 })
+import puppeteer from 'puppeteer';
+
+async function getCsrfTokenAndCookies() {
+    const browser = await puppeteer.launch({ headless: true });
+    const page = await browser.newPage();
+
+    await page.goto('https://www.instagram.com/', { waitUntil: 'networkidle2' });
+
+    const cookies = await page.cookies();
+    await browser.close();
+
+    const csrfTokenCookie = cookies.find(cookie => cookie.name === 'csrftoken');
+    const csrfToken = csrfTokenCookie ? csrfTokenCookie.value : null;
+
+    const cookieString = cookies.map(cookie => `${cookie.name}=${cookie.value}`).join('; ');
+
+    return { csrfToken, cookieString };
+}
 app.post("/",async (req,res)=>{
     try {
         const { reelLink } = await req.body
@@ -18,8 +36,15 @@ app.post("/",async (req,res)=>{
         const reelId = reelIdMatch[1];
 
         const link = "https://www.instagram.com/graphql/query/";
+        const { csrfToken, cookieString } = await getCsrfTokenAndCookies();
+        // console.log(csrfToken,cookieString)
+        if (!csrfToken) {
+            return res.status(500).json({ error: 'Failed to obtain CSRF token.' });
+        }
         const headers = {
             'user-agent': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.193 Safari/537.36',
+            'Cookie': cookieString,
+            'X-CSRFToken': csrfToken,
         };
         const params = {
             hl: 'en',
