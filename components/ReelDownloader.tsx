@@ -26,8 +26,10 @@ const  ReelDownloader=()=> {
     setError("");
     setDownloadUrl("");
     setLoading("Pending");
+    const expressBackend="https://reel-downloader.onrender.com/"
+    const apiroute='/api/reel-pup'
     try {
-      const response = await fetch("/api/download-reel", {
+      const response = await fetch(apiroute, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
