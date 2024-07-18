@@ -2,11 +2,12 @@ import axios from 'axios';
 import { NextRequest, NextResponse } from 'next/server';
 import puppeteer from 'puppeteer-core';
 import { executablePath } from 'puppeteer';
-
+import {join} from 'path';
 async function getCsrfTokenAndCookies() {
+    const chromePath = join(process.cwd(), 'chrome', 'linux-126.0.6478.182', 'chrome-linux64', 'chrome');
     const browser = await puppeteer.launch({ 
         headless: true,
-        executablePath: executablePath()
+        executablePath: chromePath
         });
     const page = await browser.newPage();
 
